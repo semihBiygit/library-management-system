@@ -13,8 +13,9 @@ public class BookDetailService implements Crud<BookDetail> {
 	}
 
 	@Override
-	public void create(BookDetail entity) {
+	public BookDetail create(BookDetail entity) {
 		bookDetailDao.create(entity);
+		return entity;
 
 	}
 

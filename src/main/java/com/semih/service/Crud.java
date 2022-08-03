@@ -2,7 +2,7 @@ package com.semih.service;
 
 public interface Crud<T> {
 
-	public void create(T entity);
+	public T create(T entity);
 
 	public void delete(long id);
 

@@ -13,8 +13,9 @@ public class AdminService implements Crud<Admin> {
 	}
 
 	@Override
-	public void create(Admin entity) {
+	public Admin create(Admin entity) {
 		adminDao.create(entity);
+		return entity;
 
 	}
 

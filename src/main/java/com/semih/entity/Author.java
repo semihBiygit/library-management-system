@@ -21,15 +21,15 @@ public class Author {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	@Column(name = "first_name")
-	private String firtName;
+	private String firstName;
 	@Column(name = "last_name")
 	private String lastName;
 	@OneToMany(mappedBy = "author")
 	private List<Book> books;
 
-	public Author(String firtName, String lastName) {
+	public Author(String firstName, String lastName) {
 		super();
-		this.firtName = firtName;
+		this.firstName = firstName;
 		this.lastName = lastName;
 		this.books = new ArrayList<Book>();
 	}

@@ -13,8 +13,9 @@ public class StudentService implements Crud<Student> {
 	}
 
 	@Override
-	public void create(Student entity) {
+	public Student create(Student entity) {
 		studentDao.create(entity);
+		return entity;
 
 	}
 

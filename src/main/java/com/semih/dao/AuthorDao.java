@@ -1,11 +1,13 @@
 package com.semih.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Session;
 
 import com.semih.entity.Author;
 
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 
 public class AuthorDao implements Crud<Author> {
@@ -55,7 +57,7 @@ public class AuthorDao implements Crud<Author> {
 		try {
 			Author author = find(id);
 			if (author != null) {
-				author.setFirtName(entity.getFirtName());
+				author.setFirstName(entity.getFirstName());
 				author.setLastName(entity.getLastName());
 				author.setBooks(entity.getBooks());
 				author.setId(entity.getId());
@@ -111,6 +113,24 @@ public class AuthorDao implements Crud<Author> {
 			session.close();
 		}
 		return null;
+	}
+	
+	public Optional<Author> findByName(String firstname, String lastname) {
+
+		Session session = databaseConnectionHibernate();
+		Author author;
+		String hql = "select a from Author as a where a.firstName =:fn and a.lastName =:ln ";
+		@SuppressWarnings("deprecation")
+		Query query = session.createQuery(hql);
+		query.setParameter("fn", firstname);
+		query.setParameter("ln", lastname);
+		try {
+			author = (Author) query.getSingleResult();
+			return Optional.of(author);
+		} catch (Exception e) {
+			System.out.println("findByName error");
+			return Optional.empty();
+		}
 	}
 
 }

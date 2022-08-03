@@ -1,5 +1,7 @@
 package com.semih.service;
 
+import java.util.Optional;
+
 import com.semih.dao.AuthorDao;
 import com.semih.entity.Author;
 
@@ -13,8 +15,9 @@ public class AuthorService implements Crud<Author> {
 	}
 
 	@Override
-	public void create(Author entity) {
+	public Author create(Author entity) {
 		authorDao.create(entity);
+		return entity;
 
 	}
 
@@ -41,6 +44,11 @@ public class AuthorService implements Crud<Author> {
 		Author stu = authorDao.find(id);
 
 		return stu;
+	}
+
+	public Optional<Author> findByName(String firstname,String lastname) {
+
+		return authorDao.findByName(firstname,lastname);
 	}
 
 }
