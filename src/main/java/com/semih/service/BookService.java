@@ -1,5 +1,7 @@
 package com.semih.service;
 
+import java.util.List;
+
 import com.semih.dao.BookDao;
 import com.semih.entity.Book;
 
@@ -32,8 +34,8 @@ public class BookService implements Crud<Book> {
 	}
 
 	@Override
-	public void listAll() {
-		bookDao.listAll();
+	public List<Book> listAll() {
+		return bookDao.listAll();
 
 	}
 

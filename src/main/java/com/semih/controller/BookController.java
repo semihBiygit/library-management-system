@@ -1,10 +1,14 @@
 package com.semih.controller;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import com.semih.entity.Author;
 import com.semih.entity.Book;
 import com.semih.entity.BookDetail;
+import com.semih.entity.Student;
 import com.semih.service.AuthorService;
 import com.semih.service.BookDetailService;
 import com.semih.service.BookService;
@@ -58,7 +62,8 @@ public class BookController {
 
 	public void update() {
 		long id = MyUtil.readInt("Please enter the book ID that you want to update");
-		// String title = MyUtil.readString("Please enter the book name you want to update");
+		// String title = MyUtil.readString("Please enter the book name you want to
+		// update");
 
 		Book updatedBook = new Book();
 		bookService.update(id, updatedBook);
@@ -66,12 +71,60 @@ public class BookController {
 	}
 
 	public void listAll() {
-		bookService.listAll();
+		bookService.listAll().forEach(book-> System.out.println(book));;
 	}
-	
+
+	public void listBorrowedBooks() {
+
+		bookService.listAll().stream().filter(book -> book.getDetail().isBorrowed() == true)
+				.forEach(book -> System.out.println(book));
+
+	}
+
 	public Book find() {
 		int id = MyUtil.readInt("Please enter the id of the book that you want to find");
 		return bookService.find(id);
+	}
+
+	public void borrowBook(Student student) {
+
+		List<Book> books = bookService.listAll().stream().filter(book -> !book.getDetail().isBorrowed())
+				.collect(Collectors.toList());
+
+		books.forEach(book -> System.out.println(book.getId() + " " + book.getDetail().getTitle()));
+
+		int bookId = MyUtil.readInt("Please enter the id of the book you want to rent.");
+		int duration = MyUtil.readInt("How many days will you rent?");
+
+		Book borrowBook = bookService.find(bookId);
+		LocalDate date = LocalDate.now();
+		borrowBook.getDetail().setBorrowDate(date);
+		borrowBook.getDetail().setBookReturnDate(date.plusDays(duration));
+		borrowBook.getStudentList().add(student);
+		borrowBook.getDetail().setBorrowed(true);
+		student.getBooks().add(borrowBook);
+		bookService.update(bookId, borrowBook);
+
+	}
+
+	public void returnBook(Student student) {
+
+		List<Book> books = student.getBooks();
+		books.forEach(book -> System.out.println(book.getId() + " " + book.getDetail().getTitle()));
+		int bookId = MyUtil.readInt("Please enter the id of the book you want to return ");
+		Book returnBook = bookService.find(bookId);
+		returnBook.getDetail().setBorrowed(false);
+		returnBook.getDetail().setBookReturnDate(LocalDate.now());
+		bookService.update(bookId, returnBook);
+
+	}
+	
+	public Student holderInfo() {
+		int bookId = MyUtil.readInt("Please enter the id of the book you want to find out who owns it.");
+		
+		Book book = bookService.find(bookId);
+		List<Student> studentBorrowedBook = book.getStudentList();
+		return studentBorrowedBook.get(studentBorrowedBook.size()-1);
 	}
 
 }

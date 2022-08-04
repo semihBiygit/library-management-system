@@ -2,6 +2,7 @@ package com.semih.entity;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,10 +16,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
 @Getter
 @Setter
 @NoArgsConstructor
-
 @Entity
 public class Book {
 	@Id
@@ -27,7 +28,7 @@ public class Book {
 	@ManyToOne
 	private Author author;
 
-	@OneToOne(optional = false)
+	@OneToOne(optional = false,cascade = CascadeType.MERGE)
 	@JoinColumn(name = "book_detail_id", referencedColumnName = "id")
 	private BookDetail detail;
 
@@ -41,5 +42,6 @@ public class Book {
 		this.detail = detail;
 		this.studentList = studentList;
 	}
-
+	
+	
 }

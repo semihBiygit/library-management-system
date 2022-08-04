@@ -1,5 +1,6 @@
 package com.semih.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.semih.dao.AuthorDao;
@@ -34,8 +35,8 @@ public class AuthorService implements Crud<Author> {
 	}
 
 	@Override
-	public void listAll() {
-		authorDao.listAll();
+	public List<Author> listAll() {
+		return authorDao.listAll();
 
 	}
 

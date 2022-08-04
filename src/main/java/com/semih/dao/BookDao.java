@@ -75,7 +75,7 @@ public class BookDao implements Crud<Book> {
 	}
 
 	@Override
-	public void listAll() {
+	public List<Book> listAll() {
 
 		Session session = databaseConnectionHibernate();
 		String query = "select book from Book as book";
@@ -85,6 +85,7 @@ public class BookDao implements Crud<Book> {
 		for (Book book : bookList) {
 			System.out.println(book);
 		}
+		return bookList;
 	}
 
 	@Override

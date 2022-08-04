@@ -74,7 +74,7 @@ public class AdminDao implements Crud<Admin> {
 	}
 
 	@Override
-	public void listAll() {
+	public List<Admin> listAll() {
 
 		Session session = databaseConnectionHibernate();
 		String query = "select admin from Admin as admin";
@@ -84,6 +84,7 @@ public class AdminDao implements Crud<Admin> {
 		for (Admin admin : adminList) {
 			System.out.println(admin);
 		}
+		return adminList;
 	}
 
 	@Override

@@ -1,5 +1,8 @@
 package com.semih.service;
 
+import java.util.List;
+
+
 public interface Crud<T> {
 
 	public T create(T entity);
@@ -8,7 +11,7 @@ public interface Crud<T> {
 
 	public void update(long id, T entity);
 
-	public void listAll();
+	public List<T> listAll();
 
 	public T find(long id);
 

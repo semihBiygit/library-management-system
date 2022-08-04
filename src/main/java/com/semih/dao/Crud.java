@@ -1,5 +1,7 @@
 package com.semih.dao;
 
+import java.util.List;
+
 import org.hibernate.Session;
 
 import com.semih.util.HibernateSession;
@@ -13,7 +15,7 @@ public interface Crud<T> {
 
 	public void update(long id, T entity);
 
-	public void listAll();
+	public List<T> listAll();
 
 	public T find(long id);
 

@@ -1,5 +1,7 @@
 package com.semih.service;
 
+import java.util.List;
+
 import com.semih.dao.AdminDao;
 import com.semih.entity.Admin;
 
@@ -32,8 +34,8 @@ public class AdminService implements Crud<Admin> {
 	}
 
 	@Override
-	public void listAll() {
-		adminDao.listAll();
+	public List<Admin> listAll() {
+		return adminDao.listAll();
 
 	}
 

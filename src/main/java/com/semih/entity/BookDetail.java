@@ -1,6 +1,6 @@
 package com.semih.entity;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,11 +12,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 
 @Entity
 public class BookDetail {
@@ -28,9 +30,10 @@ public class BookDetail {
 	@Column(name = "is_borrowed")
 	private boolean isBorrowed;
 	@Column(name = "book_borrowed_date")
-	private Date borrowDate;
-	@Column(name = "rental_length")
-	private int rentalLength;
+	private LocalDate borrowDate;
+	@Column(name = "return_date")
+	private LocalDate bookReturnDate;
+	
 	@OneToOne(mappedBy = "detail")
 	private Book book;
 

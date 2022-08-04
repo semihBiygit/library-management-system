@@ -1,8 +1,10 @@
 package com.semih.dao;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.Session;
+import org.hibernate.query.SelectionQuery;
 
 import com.semih.entity.Student;
 
@@ -75,7 +77,7 @@ public class StudentDao implements Crud<Student> {
 	}
 
 	@Override
-	public void listAll() {
+	public List<Student> listAll() {
 
 		Session session = databaseConnectionHibernate();
 		String query = "select stu from Student as stu";
@@ -85,6 +87,7 @@ public class StudentDao implements Crud<Student> {
 		for (Student student : studentList) {
 			System.out.println(student);
 		}
+		return studentList;
 	}
 
 	@Override
@@ -110,6 +113,24 @@ public class StudentDao implements Crud<Student> {
 			session.close();
 		}
 		return null;
+	}
+
+	public Optional<Student> findByUsername(String username) {
+		
+		Session session = databaseConnectionHibernate();
+		Student student;
+		String hql = "select stu from Student as stu where stu.username =:un";
+		@SuppressWarnings("unchecked")
+		SelectionQuery<Student> query = (SelectionQuery<Student>) session.createSelectionQuery(hql);
+		query.setParameter("un", username);
+		try {
+			student = query.getSingleResult();
+			return Optional.of(student);
+		}catch(Exception e){
+			return Optional.empty();
+		}finally {
+			session.close();
+		}
 	}
 
 }

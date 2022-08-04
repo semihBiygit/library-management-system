@@ -1,9 +1,11 @@
 package com.semih.util;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 import com.semih.controller.BookController;
 import com.semih.controller.StudentController;
+import com.semih.entity.Student;
 
 public class LibrarySystemMenu {
 
@@ -26,16 +28,32 @@ public class LibrarySystemMenu {
 
 		switch (key) {
 		case 1:
-			// adminLogin
 			adminMenu();
 			break;
 		case 2:
-			// studentLogin
+			studentLogin();
 			break;
 
 		default:
 			break;
 		}
+	}
+
+	private Student studentLogin() {
+		String username = MyUtil.readString("Please enter username.");
+		String password = MyUtil.readString("Please enter password.");
+
+		Optional<Student> stu = studentController.findByUsername(username);
+		if (stu.isPresent()) {
+			if (stu.get().getPassword().equals(password)) {
+				studentMenu(stu.get());
+			} else {
+				System.out.println("Wrong username or password ");
+			}
+		} else {
+			System.out.println("Wrong username or password ");
+		}
+		return stu.get();
 	}
 
 	private void adminMenu() {
@@ -45,11 +63,11 @@ public class LibrarySystemMenu {
 		menuItems.put(2, "Delete Student ");
 		menuItems.put(3, "Add Book ");
 		menuItems.put(4, "Delete Book ");
-		menuItems.put(5, "Return Time of Books ");
-		menuItems.put(6, "Book Tenants ");
+		menuItems.put(5, "List all Books ");
+		menuItems.put(6, "List borrowed Books ");
 
 		int key = MyUtil.menu(menuItems);
-		
+
 		switch (key) {
 		case 1:
 			studentController.create();
@@ -64,15 +82,34 @@ public class LibrarySystemMenu {
 			bookController.delete();
 			break;
 		case 5:
-
+			bookController.listAll();
 			break;
 		case 6:
-
+			bookController.listBorrowedBooks();
 			break;
-
+		case 7:
+			bookController.holderInfo();
+			break;
 		default:
 			break;
 		}
 	}
 
+	private void studentMenu(Student student) {
+		HashMap<Integer, String> menuItems = new HashMap<>();
+		menuItems.put(1, "Borrow Book ");
+		menuItems.put(2, "Return Book ");
+
+		int key = MyUtil.menu(menuItems);
+
+		switch (key) {
+		case 1:
+			bookController.borrowBook(student);
+			break;
+		case 2:
+			bookController.returnBook(student);
+			break;
+		}
+
+	}
 }

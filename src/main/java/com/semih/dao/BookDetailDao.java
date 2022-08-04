@@ -59,7 +59,7 @@ public class BookDetailDao implements Crud<BookDetail> {
 				bookDetail.setTitle(entity.getTitle());
 				bookDetail.setBorrowDate(entity.getBorrowDate());
 				bookDetail.setBorrowed(entity.isBorrowed());
-				bookDetail.setRentalLength(entity.getRentalLength());
+				bookDetail.setBookReturnDate(entity.getBookReturnDate());
 
 				session = databaseConnectionHibernate();
 				session.getTransaction().begin();
@@ -77,7 +77,7 @@ public class BookDetailDao implements Crud<BookDetail> {
 	}
 
 	@Override
-	public void listAll() {
+	public List<BookDetail> listAll() {
 
 		Session session = databaseConnectionHibernate();
 		String query = "select bookDetail from BookDetail as bookDetail";
@@ -87,6 +87,7 @@ public class BookDetailDao implements Crud<BookDetail> {
 		for (BookDetail bookDetail : bookDetailList) {
 			System.out.println(bookDetail);
 		}
+		return bookDetailList;
 	}
 
 	@Override

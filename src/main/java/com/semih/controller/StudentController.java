@@ -1,5 +1,7 @@
 package com.semih.controller;
 
+import java.util.Optional;
+
 import com.semih.entity.Student;
 import com.semih.service.StudentService;
 import com.semih.util.MyUtil;
@@ -48,6 +50,11 @@ public class StudentController {
 	public Student find() {
 		int id = MyUtil.readInt("Please enter the id of the student that you want to find.");
 		return studentService.find(id);
+	}
+	
+	public Optional<Student> findByUsername(String username){
+		return studentService.findByUsername(username);
+		
 	}
 
 }

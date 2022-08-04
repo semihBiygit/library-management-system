@@ -78,7 +78,7 @@ public class AuthorDao implements Crud<Author> {
 	}
 
 	@Override
-	public void listAll() {
+	public List<Author> listAll() {
 
 		Session session = databaseConnectionHibernate();
 		String query = "select author from Author as author";
@@ -88,6 +88,7 @@ public class AuthorDao implements Crud<Author> {
 		for (Author author : authorList) {
 			System.out.println(author);
 		}
+		return authorList;
 	}
 
 	@Override
